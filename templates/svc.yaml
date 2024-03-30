@@ -1,0 +1,30 @@
+---
+# Source: wordpress/templates/svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  labels:
+    app.kubernetes.io/instance: wordpress
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: wordpress
+    app.kubernetes.io/version: 6.4.3
+    helm.sh/chart: wordpress-19.4.3
+spec:
+  type: NodePort
+  externalTrafficPolicy: "Cluster"
+  sessionAffinity: None
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+      nodePort: 32081
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+      nodePort: 32443
+  selector:
+    app.kubernetes.io/instance: wordpress
+    app.kubernetes.io/name: wordpress
